@@ -6,29 +6,34 @@
 #include <sys/wait.h>
 
 void split(char *str){
+	/*
+	char delimVirgula[] = " ";
+	char *token;
 
-	//char str[] = *strs;
-
-
-	// Separa os comandos concatenados por , (virgular)
-	char delimComandos[] = ",";
-	char *ptr1 = strtok(str, delimComandos);
-
-	while (ptr1 != NULL)
-	{
-		printf("'%s'\n\n", ptr1);
-		char *ptrAux = ptr1;
-		// Separa por espaços, comando + args
-		char delimPalavras[] = " ";
-		char *ptr2 = strtok(ptr1, delimPalavras);
-		while(ptr2 != NULL){
-			printf("'%s'\n", ptr2);
-
-			ptr2 = strtok(NULL, delimPalavras);
-		}
-		ptr1 = ptrAux;
-		ptr1 = strtok(NULL, delimComandos);
+	token = strtok(str, delimVirgula);
+	while( token != NULL ) {
+		printf( "'%s'\n", token );
+		// Inserir outro split
+		token = strtok(NULL, delimVirgula);
 	}
+	*/
+	
+    char *end_str;
+    char *token = strtok_r(str, ",", &end_str);
+
+    while (token != NULL) {
+        char *end_token;
+        printf("comando completo = %s\n", token);
+        char *token2 = strtok_r(token, " ", &end_token);
+        while (token2 != NULL) {
+            printf("parte = %s\n", token2);
+
+            // Criar args aqui com tokens2
+
+            token2 = strtok_r(NULL, " ", &end_token);
+        }
+        token = strtok_r(NULL, ",", &end_str);
+    }
 
 }
 
@@ -96,7 +101,7 @@ int main( ){
 	
 
 
-		
+
 
 
 	
