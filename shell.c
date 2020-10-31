@@ -5,7 +5,39 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-void split(char *str){
+void executarComando(char* args[]){
+
+	char* comando = args[0];
+
+	if (strcmp(args[0], "quit") == 0) {
+		printf("quitando\n");
+		exit(0);
+	}
+
+	pid_t pid = fork();
+	if (pid == -1) {
+		perror("Erro no fork");
+	}
+	if (pid == 0) { // Filho executa esse bloco
+		printf("---Filho %d\n", (int)pid);		
+		if (execvp(args[0], args) == -1) {
+			perror("Erro no execv");
+		}
+		exit(0); // Termina processo filho
+	}
+
+	// Processo pai espera filho terminar de executar
+	if (wait(0) == -1) {
+		perror("Erro no wait");
+	}
+	
+	printf("---Pai %d\n", (int)pid);
+
+
+}
+
+
+void splits(char *str){
 	/*
 	char delimVirgula[] = " ";
 	char *token;
@@ -70,7 +102,7 @@ int main( ){
 		args[2] = NULL;
 		args[3] = NULL;
 
-		split(entrada);
+		splits(entrada);
 
 		if (strcmp(args[0], "quit") == 0) {
 			printf("quitando\n");
