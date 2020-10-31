@@ -40,13 +40,13 @@ void splits(char *str){
 	char **args;
 	int indice = 0; // Ultimo args adicionado ao vetor de strings(char **args)
 	int i = 0;
-	char *end_str;
-	char *token = strtok_r(str, ",", &end_str);
+    char *end_str;
+    char *token = strtok_r(str, ",", &end_str);
 
     while (token != NULL) { // Split por virgula ','
     	//printf("comando completo: '%s'\n", token);
-    	char *end_token;        
-    char *token2 = strtok_r(token, " ", &end_token);
+        char *end_token;        
+        char *token2 = strtok_r(token, " ", &end_token);
 
         // Vetor de Strings criado
         args = malloc(sizeof(char*)*512); //Aloca 512 ponteiros de char, ou seja, 512 strings **vazias**, ainda **não alocadas**.
@@ -54,19 +54,19 @@ void splits(char *str){
             //printf("pedaço do comando: %s\n", token2);
 
             // Criar args aqui com cada token2(Pedaço do comando que estão sendo separados por ' '),          
-        	args[indice] = malloc(sizeof(char)*512);
-        args[indice] = token2;			
+  			args[indice] = malloc(sizeof(char)*512);
+			args[indice] = token2;			
 			//printf("args[%d] = %s\n", indice, args[indice]);
-        indice++;
+			indice++;
 
-        token2 = strtok_r(NULL, " ", &end_token);
-    }
+            token2 = strtok_r(NULL, " ", &end_token);
+        }
         args[indice] = NULL; // No execvp, o ultimo args deve ser NULL
         //printf("Executando um comando aq\n");
         executarComando(args);
         // Desalocando a memoria        
-        free(args);
-        indice = 0;
+		free(args);
+		indice = 0;
 
         token = strtok_r(NULL, ",", &end_str);
     }
