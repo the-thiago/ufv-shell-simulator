@@ -4,12 +4,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 void executarComando(char* args[]){
 
-	char* comando = args[0];
-
-	if (args[0] == NULL){
+	if (args[0] == NULL){ // Não digitou nada alem de espaços e virgulas.
 		return;
 	}
 	if (strcmp(args[0], "quit") == 0) {
@@ -17,14 +16,14 @@ void executarComando(char* args[]){
 		exit(0);
 	}
 
-	pid_t pid = fork();
+	pid_t pid = fork(); // Cria um processo filho
 	if (pid == -1) {
 		perror("Erro no fork");
 	}
 	if (pid == 0) { // Filho executa esse bloco
 		//printf("---Filho %d\n", (int)pid);		
 		if (execvp(args[0], args) == -1) {
-			perror("Erro no execv");
+			perror("Erro ao executar comando"); // Printa errno
 		}
 		exit(0); // Termina processo filho
 	}
@@ -32,45 +31,33 @@ void executarComando(char* args[]){
 	// Processo pai espera filho terminar de executar
 	if (wait(0) == -1) {
 		perror("Erro no wait");
-	}
-	
+	}	
 	//printf("---Pai %d\n", (int)pid);
 }
 
 void splits(char *str){
-	/*
-	char delimVirgula[] = " ";
-	char *token;
 
-	token = strtok(str, delimVirgula);
-	while( token != NULL ) {
-		printf( "'%s'\n", token );
-		// Inserir outro split
-		token = strtok(NULL, delimVirgula);
-	}
-	*/
 	char **args;
-	int indice = 0, i = 0;
+	int indice = 0; // Ultimo args adicionado ao vetor de strings(char **args)
+	int i = 0;
     char *end_str;
     char *token = strtok_r(str, ",", &end_str);
 
-    while (token != NULL) {
-        char *end_token;
-        //printf("comando completo = '%s'\n", token);
+    while (token != NULL) { // Split por virgula ','
+    	//printf("comando completo: '%s'\n", token);
+        char *end_token;        
         char *token2 = strtok_r(token, " ", &end_token);
 
+        // Vetor de Strings criado
         args = malloc(sizeof(char*)*512); //Aloca 512 ponteiros de char, ou seja, 512 strings **vazias**, ainda **não alocadas**.
-        while (token2 != NULL) {
-            //printf("parte = %s\n", token2);
+        while (token2 != NULL) { // Split por espaço ' '
+            //printf("pedaço do comando: %s\n", token2);
 
-            // Criar args aqui com cada token2
-            
-  			args[indice] = malloc(sizeof(char)*512); //String Dinâmica Normal
+            // Criar args aqui com cada token2(Pedaço do comando que estão sendo separados por ' '),          
+  			args[indice] = malloc(sizeof(char)*512);
 			args[indice] = token2;			
 			//printf("args[%d] = %s\n", indice, args[indice]);
 			indice++;
-
-            // Fim
 
             token2 = strtok_r(NULL, " ", &end_token);
         }
@@ -83,7 +70,6 @@ void splits(char *str){
 
         token = strtok_r(NULL, ",", &end_str);
     }
-
 }
 
 int main( ){
@@ -95,7 +81,7 @@ int main( ){
 		printf("\e[0m");	// Volta a cor da fonte do terminal para branco
 		gets(entrada);
 		fflush(stdin);
-		splits(entrada);
+		splits(entrada);	// Faz split por ',' e depois por ' ', chama a funcao executarComando()
 
 	}while(1);
 
