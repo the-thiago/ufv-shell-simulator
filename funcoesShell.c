@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include "funcoesShell.h"
 
 void executarComando(char* args[]){
 
@@ -35,11 +36,10 @@ void executarComando(char* args[]){
 	//printf("---Pai %d\n", (int)pid);
 }
 
-void splits(char *str){
+void tratarEntrada(char *str){
 
 	char **args;
 	int indice = 0; // Ultimo args adicionado ao vetor de strings(char **args)
-	int i = 0;
     char *end_str;
     char *token = strtok_r(str, ",", &end_str);
 
@@ -49,12 +49,12 @@ void splits(char *str){
         char *token2 = strtok_r(token, " ", &end_token);
 
         // Vetor de Strings criado
-        args = malloc(sizeof(char*)*512); //Aloca 512 ponteiros de char, ou seja, 512 strings **vazias**, ainda **não alocadas**.
+        args = malloc(sizeof(char*)*TAMANHO_ENTRADA); //Aloca 512 ponteiros de char, ou seja, 512 strings **vazias**, ainda **não alocadas**.
         while (token2 != NULL) { // Split por espaço ' '
             //printf("pedaço do comando: %s\n", token2);
 
             // Criar args aqui com cada token2(Pedaço do comando que estão sendo separados por ' '),          
-  			args[indice] = malloc(sizeof(char)*512);
+  			args[indice] = malloc(sizeof(char)*TAMANHO_ENTRADA);
 			args[indice] = token2;			
 			//printf("args[%d] = %s\n", indice, args[indice]);
 			indice++;
@@ -70,20 +70,4 @@ void splits(char *str){
 
         token = strtok_r(NULL, ",", &end_str);
     }
-}
-
-int main( ){
-
-	char entrada[512];
-	do{
-		printf("\e[92m");	// Muda a cor da fonte do terminal para verde
-		printf("meu-shell> ");		
-		printf("\e[0m");	// Volta a cor da fonte do terminal para branco
-		gets(entrada);
-		fflush(stdin);
-		splits(entrada);	// Faz split por ',' e depois por ' ', chama a funcao executarComando()
-
-	}while(1);
-
-	return 0;
 }
