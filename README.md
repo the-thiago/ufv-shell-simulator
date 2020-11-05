@@ -1,7 +1,7 @@
 # UFV-ShellEmC
-###### - Gabriel Antunes Fernandes Fonseca - 6039
-###### - Thiago Moreira de Souza - 6011
 ###### - Leandro Guimarães Oliveira - 4835
+###### - Thiago Moreira de Souza - 6011
+###### - Gabriel Antunes Fernandes Fonseca - 6039
 
 #### Trabalho executado em graduação pela disciplina de Sistemas Operacionais na faculdade Universidade Fedaral de Viçosa.
 
