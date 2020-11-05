@@ -15,3 +15,8 @@
 2) Depois digitar "./executavel" para rodar o programa.
 
 3) Depois escreva a linha de comando que desejar!
+
+
+###  OBSERVAÇÕES
+
+1) Em nosso programa Shell, para substituir o "|" do terminal, deve-se usar ","(vírgula).
