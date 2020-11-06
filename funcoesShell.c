@@ -29,8 +29,14 @@ void executarComando(char* args[], char* proximoComando, int primeiroComandoOuNa
 
 			if (execvp(args[0], args) == -1) {
 				perror("Erro ao executar comando"); // Printa errno
+				exit(1);
 			}
 		}
+
+		// Processo pai espera filho terminar de executar
+		if (wait(0) == -1) {
+			perror("Erro no wait");
+		}	
 
 	} else if(primeiroComandoOuNao == 0 && proximoComando == NULL){ // Não é o primeiro e é o ultimo comando
 
@@ -45,11 +51,17 @@ void executarComando(char* args[], char* proximoComando, int primeiroComandoOuNa
 
 			if (execvp(args[0], args) == -1) {
 				perror("Erro ao executar comando"); // Printa errno
+				exit(2);
 			}
 		}
 		// Fecha pipe do programa principal
 		close(fd[0]);
 		close(fd[1]);
+
+		// Processo pai espera filho terminar de executar
+		if (wait(0) == -1) {
+			perror("Erro no wait");
+		}	
 
 	} else if(primeiroComandoOuNao == 1 && proximoComando == NULL){ // Um unico comando, primeiro e ultimo
 
@@ -60,14 +72,15 @@ void executarComando(char* args[], char* proximoComando, int primeiroComandoOuNa
 		if (pid == 0) { // Filho executa esse bloco	
 			if (execvp(args[0], args) == -1) {
 				perror("Erro ao executar comando"); // Printa errno
+				exit(3);
 			}
-		}		
+		}	
+		// Processo pai espera filho terminar de executar
+		if (wait(0) == -1) {
+			perror("Erro no wait");
+		}	
 	}
-
-	// Processo pai espera filho terminar de executar
-	if (wait(0) == -1) {
-		perror("Erro no wait");
-	}	
+	
 }
 
 void tratarEntrada(char *str){
