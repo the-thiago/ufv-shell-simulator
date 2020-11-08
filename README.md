@@ -5,7 +5,7 @@
 ###### - Gabriel Antunes Fernandes Fonseca - 6039
 
 #### Trabalho executado em graduação pela disciplina de Sistemas Operacionais na Universidade Federal de Viçosa.
-####Prof. Rodrigo Moreira - SIN 351
+#### Prof. Rodrigo Moreira - SIN 351
 
 ## SOBRE O PROJETO
 Foi desenvolvido um Shell/Interpretador de Comandos (Command Line Interface - CLI) que é capaz de receber, iterativamente, entradas dos usuários (comandos), processá-los (caso ele exista) e exibir a saída na tela de Prompt. O Shell é comumente utilizado nos ambientes Unix utilizados no cotidiano. Ele é capaz que receber comandos concatenados por virgula(","), substituindo o pipe("|") do terminal. Para fechar o programa, basta utilizar o comando "quit". O programa ignora entradas e concatenações vazias.
