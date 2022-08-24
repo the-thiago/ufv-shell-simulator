@@ -1,33 +1,32 @@
-# UFV-ShellEmC
-## Link do repositório: https://github.com/the-thiago/UFV-ShellEmC
+# ufv-shell-simulator-c
+Contributors
 ###### - Leandro Guimarães Oliveira - 4835
 ###### - Thiago Moreira de Souza - 6011
 ###### - Gabriel Antunes Fernandes Fonseca - 6039
 
-#### Trabalho executado em graduação pela disciplina de Sistemas Operacionais na Universidade Federal de Viçosa.
+#### Project developed in undergraduate course of Operating Systems at the Federal University of Viçosa.
 #### Prof. Rodrigo Moreira - SIN 351
 
-## SOBRE O PROJETO
-Foi desenvolvido um Shell/Interpretador de Comandos (Command Line Interface - CLI) que é capaz de receber, iterativamente, entradas dos usuários (comandos), processá-los (caso ele exista) e exibir a saída na tela de Prompt. O Shell é comumente utilizado nos ambientes Unix utilizados no cotidiano. Ele é capaz que receber comandos concatenados por virgula(","), substituindo o pipe("|") do terminal. Para fechar o programa, basta utilizar o comando "quit". O programa ignora entradas e concatenações vazias.
+## ABOUT THE PROJECT
+A Shell/Command Interpreter (Command Line Interface - CLI) was developed that is capable of iteratively receiving user inputs (commands), processing them (if any) and displaying the output on the Prompt screen. The Shell is commonly used in Unix environments used in everyday life. It is able to receive commands concatenated by comma(","), replacing the pipe("|") of the terminal. To close the program, just use the "quit" command. The program ignores empty entries and concatenations.
 
-## COMO UTILIZAR O SHELL
+## HOW TO USE THE SHELL
 
-1) Para compilar o programa deve-se utilizar a palavra "make".
+1) To compile the program you must use the word "make".
 
-2) Para rodar o executável gerado é preciso digitar "./executavel".
+2) To run the generated executable, type "./executavel".
 
-3) Agora é possível executar vários comandos de um Interpretador de Comandos, podendo ser concatenados por virgula(","), substituindo o pipe("|") do terminal. Para fechar o programa, basta utilizar o comando "quit".
+3) It is now possible to execute several commands from a Command Interpreter, which can be concatenated by comma(","), replacing the pipe("|") of the terminal. To close the program, just use the "quit" command.
 
 
-###  EXEMPLOS DE UTILIZAÇÃO
+###  EXAMPLES OF USE
 
-![Imagem que mostra a utilização do programa](https://github.com/the-thiago/UFV-ShellEmC/blob/master/PrintsReadMe/ExemplosDeUso.jpeg?raw=true)
+![Image showing the use of the program](https://github.com/the-thiago/UFV-ShellEmC/blob/master/PrintsReadMe/ExemplosDeUso.jpeg?raw=true)
 
-> Exemplo de utilização do programa.
+> Example of using the program.
 
-Apos ser compilado e executado, o cat concatenado com o grep mostra as linhas do funcoesShell.c que apresentam a palavra "fork". Através do ls -l, é listado os arquivos que estão no diretório do executável. Entradas e concatenações vazias são ignoradas pelo programa e é criado um programa através do comando touch. Por meio de outro ls, é possível ver o arquivo "file.txt" criado anteriormente. Por fim, o programa é fechado com o comando "quit".
+After being compiled and executed, the cat concatenated with grep displays lines from funcoesShell.c that contain the word "fork". Through ls -l, the files that are in the executable directory are listed. Empty entries and concatenations are ignored by the program and a program is created using the touch command. Through another ls, you can see the file "file.txt" created earlier. Finally, the program is closed with the "quit" command.
 
-###  COMO O PROGRAMA FOI IMPLEMENTADO
-No arquivo onde está a main, um loop é executado enquanto o comando "quit" não é digitado pelo usuário. No loop, o usuário deve digitar um comando que será tratado pela função tratarEntrada(char *str).
-Na função que trata a entrada, oque foi digitado é separado por vírgula e cada string gerada é separada por espaço, cada palavra é colocada em um vetor de string dinâmico. Esse vetor de argumentos é passado pra função executarComando(char* args[], char* proximoComando, int primeiroComandoOuNao, int* fd), que junto com outros argumentos decidem se os files descriptors(pipe, que faz a comunicação entre processos) devem ser lidos ou ser utilizado para escrita. A função executarComando, dependendo se é o primeiro comando e se tem comando concatenado a ser executado, lê ou escreve no pipe se necessário. Por meio do fork, um processo filho é criado e através do execvp executa o comando do shell.
-
+###  HOW THE PROGRAM WAS IMPLEMENTED
+In the file where main is, a loop is executed while the command "quit" is not typed by the user. In the loop, the user must type a command that will be handled by the tratarEntrada(char *str) function.
+In the function that handles the input, what was typed is separated by comma and each generated string is separated by space, each word is placed in a dynamic string vector. This array of arguments is passed to the function executarComando(char* args[], char* proximoComando, int primeiroComandoOuNao, int* fd), which together with other arguments decide whether the files descriptors(pipe, which communicates between processes) should be read or be used for writing. The executarComando function, depending on whether it is the first command and whether it has a concatenated command to be executed, reads or writes to the pipe if necessary. Through fork, a child process is created and through execvp executes the shell command.
